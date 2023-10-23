@@ -1,0 +1,107 @@
+DataBase : 데이터들의 집합 
+ex> 영화 예매 시스템 
+극장 / 상영중인 영화 / 내가 보고 싶은 영화 / 시간대 / 원하는 좌석 / 인원 수 / ...
+SQL Query문을 활용해 만들어짐.
+
+SQL : Structured Query Language (구조적 질의 언어)
+DBMS : DataBase Management System (데이터베이스 관리 시스템) 에서 데이터를 관리, 처리하기 위해 설계된 언어.
+구조화 된 데이터를 질의함.
+
+DB에서 대표적인 DBMS인 OracleDB로 진행.
+
+DATA
+	RAM > 변수(객체) 형태로 저장, 임시저장.
+	Storage > File 형태로 저장, 영구저장. 지우기 쉽고 수정이 쉬움. > 위험? > 프로그램에서 써먹기 불편.
+	
+	보안성이 뛰어나고 기능이 강력한 Network File > Database
+
+DB
+	보안성이 뛰어나고 기능이 강력한 Network File을 제공해주는 서비스.
+
+	Oracle DB (Oracle)
+	MSSQL (Microsoft)
+	MySQL (Oracle 합병)
+	MariaDB (MySQL팀에서 독립해서 만듬. 사실상 같음)
+
+
+오라클 서버는 크게 3단계로 진화했음 , i > g > c
+
+> 7i , 8i , 9i ... i 로 끝나는 것 : Internet의 줄임말.
+	DB에 인터넷 환경을 지원하면서 i라는 용어가 붙음.
+
+> 10g, 11g , ... g 로 끝나는 것 : Grid Computing의 개념
+	여러대의 컴퓨터를 하나로 연결해서 빠른속도로 연산, 처리 작업.
+
+> 12c, 13c , 19c , 21c ... c 로 끝나는 것 : Cloud computing
+	클라우드 기술 접목. 흐름에 따라 통합된 서비스에 접근 할 수 있도록 서비스를 제공
+
+Database Standard Edition 2 (SE2) : 가장 기본적 DB 제품
+Database Enterprise Edition (EE) : 고사양 서버에서 사용 가능한 기업용 DB, SE2에서 지원되지 않은 옵션 제공
+Database Express Edition (XE) : 개발용, 교육용 등으로 무료 사용이 가능한 DB, 상업용으로 판매 불가.
+
+192.168.0.157
+port : 1521
+SID : xe
+
+/DB 접속시/
+sqlplus / as sysdba (sqlplus respina/sdj7524@192.168.0.157:1521/xe)
+sqlplus : oracleDB 접속 프로그램명
+/ : 현재 로그인 한 OS의 계정 사용 (id/pw@ipaddress:portnumber/version)
+as sysdba : 로컬 관리자로 접속
+
+sqlplus(정품) > cmd 기반이라 불편함.
+Eclipse로 orclaeDB에 접속할 것.
+
+
+OracleDB에 접속하려면 instant client 필요. (basic,jdbc,sqlplus)
+
+" 안될 시 "
+
+enter user-name : system
+enter password : 비밀번호
+
+/유저 생성/
+create user [id] identified by [pw]	(respina/sdj7524)
+
+/권한 부여/ role(권한을 묶어두는)을 부여.
+grant connect, resource, dba to [id];	(관리자에게는 dba까지 부여.)(개발자는 connect, resource 까지만 부여할 것.)
+
+생성한 것 )
+루트계정 : / , sdj7524
+관리자 계정 : respina , sdj7524
+개발자 계정 : pin , sdj7524
+
+이 계정이 사용할 tablespace 만들기 : 보안성이 뛰어나고 기능이 강력한 네트워크 파일
+
+/테이블 스페이스 생성/
+create tablespace [테이블스페이스명] datafile '[경로]/[file명].dbf' size 500m;
+
+예시)
+create tablespace r_table datafile 'C:\Users\sdedu\Desktop\Dev\Oracle\r_tablespace/r_file.dbf' size 500m;
+
+/유저 로그인/
+sqlplus id/pass@ipaddress:port/sid
+
+예시)
+sqlplus pin/sdj7524@192.168.0.157:1521/xe
+
+
+Query 문
+
+테이블생성)
+create table name(value1 char,value2 number,....);
+
+예시)
+create table student(name char,age number);
+
+테이블 구조 확인)
+desc tablename;
+
+예시)
+desc student;
+
+테이블 삭제)
+drop table tablename cascade constraint purge;
+
+예시)
+drop table student cascade constraint purge;
